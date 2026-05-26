@@ -1,9 +1,37 @@
-<div class="container">
-  <div class="row">
-    <div class="col">
-      <img src="../../../assets/Brain.jpg">
+<div class="container-fluid px-0">
+  <div class="row gx-0">
+    <div class="col-md-6 d-none d-md-flex align-items-center justify-content-center" id="login-image-column">
+      <img src="assets/Brain.jpg" alt="Brain" class="img-fluid" style="height: 100vh; object-fit: cover;">
     </div>
-    <div class="col">
+    <div id="login-form-column" class="col-12 col-md-6 d-flex align-items-center justify-content-center px-3"
+      style="min-height: 100vh; box-sizing: border-box;">
+      <div class="card w-100"
+        style="max-width: 100%; border: 1px solid #dee2e6; box-shadow: 0 .125rem .25rem rgba(0,0,0,.075);">
+        <div class="card-header">
+          <h1>Login</h1>
+        </div>
+        <div class="card-body">
+          <form>
+            <!--User Name-->
+            <div>
+              <label for="username" class="form-label">User Name</label>
+              <input id="username" type="text" class="form-control" name="username" autocomplete="off"
+                autocapitalize="none" autocorrect="off" spellcheck="false">
+            </div>
+
+            <!--Password-->
+            <div>
+              <label for="password" class="form-label">Password</label>
+              <input type="password" class="form-control" name="password">
+            </div>
+
+            <!--Sign In-->
+            <div class="mt-5">
+              <input type="button" class="bg-primary text-white fw-bolder form-control" value="Sign In" name="Sign In">
+            </div>
+          </form>
+        </div>
+      </div>
 
     </div>
   </div>

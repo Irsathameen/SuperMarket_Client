@@ -11,7 +11,7 @@
           <h1>Login</h1>
         </div>
         <div class="card-body">
-          <form>
+          <form [formGroup]="loginForm" class="d-flex flex-column gap-4" autocomplete="off">
             <!--User Name-->
             <div>
               <label for="username" class="form-label">User Name</label>
@@ -27,7 +27,7 @@
 
             <!--Sign In-->
             <div class="mt-5">
-              <input type="button" class="bg-primary text-white fw-bolder form-control" value="Sign In" name="Sign In">
+              <input type="button" (click)="onSubmit()" class="bg-primary text-white fw-bolder form-control" value="Sign In" name="Sign In">         
             </div>
           </form>
         </div>

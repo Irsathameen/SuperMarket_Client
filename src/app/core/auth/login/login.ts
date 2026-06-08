@@ -1,48 +1,63 @@
 import { Component, inject } from '@angular/core';
 import { Auth } from '../auth';
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ToastrService } from 'ngx-toastr';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule,CommonModule],
   templateUrl: './login.html',
   styleUrls: ['./login.css'],
 })
 export class Login {
   private fb = inject(FormBuilder);
   private authService = inject(Auth);
-private toastr = inject(ToastrService);
+  private toastr = inject(ToastrService);
   loginForm = this.fb.group({
-    username: [''],
-    password: ['']
+    username: ['', [Validators.required, Validators.minLength(5)]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
   });
+  showPassword = false;
+  hasError = false;
+
+  togglePasswordVisibility() {
+    this.showPassword = !this.showPassword;
+  }
 
   onSubmit() {
-    const { username, password } = this.loginForm.value;
-    if (!username || !password) {
-   
+    this.loginForm.markAllAsTouched();
 
-           this.toastr.error('Please enter username and password.', 'Error', {
-  timeOut: 3000,
-  positionClass: 'toast-top-right',
-  progressBar: true
-});
+    if (this.loginForm.invalid) {
+      this.hasError = true;
       return;
     }
+
+    this.hasError = false;
+    const username = this.loginForm.get('username')?.value ?? '';
+    const password = this.loginForm.get('password')?.value ?? '';
+    console.log('Attempting login with:', { username, password });
 
     this.authService.login(username, password).subscribe({
       next: (isLoggedIn: boolean) => {
         if (isLoggedIn) {
           this.toastr.success('Login successful!');
         } else {
-          alert('Invalid username or password. Please try again.');
+          this.toastr.error('Invalid username or password. Please try again.', 'Error', {
+            timeOut: 3000,
+            positionClass: 'toast-top-right',
+            progressBar: true,
+          });
         }
       },
       error: () => {
-        alert('Login failed. Please try again later.');
-      }
+        this.toastr.error('Login failed. Please try again later.', 'Error', {
+          timeOut: 3000,
+          positionClass: 'toast-top-right',
+          progressBar: true,
+        });
+      },
     });
   }
 }

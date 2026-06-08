@@ -11,23 +11,45 @@
           <h1>Login</h1>
         </div>
         <div class="card-body">
+          <div *ngIf="hasError" class="alert alert-danger" role="alert">
+
+            <div
+              *ngIf="loginForm.get('username')?.invalid && (loginForm.get('username')?.touched || loginForm.get('username')?.dirty)">
+              <div *ngIf="loginForm.get('username')?.errors?.['required']">Username is required.</div>
+              <div *ngIf="loginForm.get('username')?.errors?.['minlength']">Username must be at least 5 characters long.
+              </div>
+            </div>
+            <div
+              *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.touched || loginForm.get('password')?.dirty)">
+              <div *ngIf="loginForm.get('password')?.errors?.['required']">Password is required.</div>
+              <div *ngIf="loginForm.get('password')?.errors?.['minlength']">Password must be at least 8 characters long.
+              </div>
+            </div>
+          </div>
           <form [formGroup]="loginForm" class="d-flex flex-column gap-4" autocomplete="off">
             <!--User Name-->
             <div>
               <label for="username" class="form-label">User Name</label>
-              <input id="username" type="text" class="form-control" name="username" autocomplete="off"
+              <input id="username" type="text" class="form-control" formControlName="username" autocomplete="off"
                 autocapitalize="none" autocorrect="off" spellcheck="false">
             </div>
 
             <!--Password-->
             <div>
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" name="password">
+              <div class="input-group">
+                <input id="password" [type]="showPassword ? 'text' : 'password'" class="form-control"
+                  formControlName="password">
+                <span class="input-group-text" (click)="togglePasswordVisibility()" style="cursor: pointer;">
+                  {{ showPassword ? '👁️' : '👁️‍🗨️' }}
+                </span>
+              </div>
             </div>
 
             <!--Sign In-->
             <div class="mt-5">
-              <input type="button" (click)="onSubmit()" class="bg-primary text-white fw-bolder form-control" value="Sign In" name="Sign In">         
+              <input type="button" (click)="onSubmit()" class="bg-primary text-white fw-bolder form-control"
+                value="Sign In" name="Sign In">
             </div>
           </form>
         </div>
